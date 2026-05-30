@@ -115,11 +115,65 @@
 - India (IN) set as default country for emergency numbers
 - Quick actions placed prominently below location card for easy access
 
-**Pending:**
-- Leaflet Map Integration
-- Voice SOS Feature
-- Nearby Services (Hospitals, Ambulances, Police)
-- AI First Aid Assistant
-- Emergency Guide with offline support
-- Offline Emergency Mode
 
+## Phase 3 - Leaflet Map + Nearby Services
+**Date:** 2026-05-31
+
+**Completed:**
+- Leaflet map integration with OpenStreetMap tiles
+- User location marker (blue circle) displayed on map
+- Service markers with category-based color coding and icons
+- 6 service categories with mock data (50 total services)
+  - Hospitals (10 services with coordinates around New Delhi)
+  - Ambulance Services (10 services)
+  - Police Stations (10 services)
+  - Towing Services (10 services)
+  - Puncture Shops (10 services)
+  - Vehicle Showrooms (10 services)
+- Category filter buttons for easy filtering
+- Service list with responsive grid layout (scrollable)
+- Distance calculation based on user location (Haversine formula)
+- Service cards displaying:
+  - Service name with category icon
+  - Category label
+  - Distance from user location (formatted as km or m)
+  - Contact phone number (clickable tel: link)
+  - Service status/operating hours
+  - "Get Directions" button
+- Directions button opens Google Maps with navigation from user location to service
+- Automatic geolocation with fallback to default New Delhi coordinates
+- Category filtering with multi-select capability
+- Show/hide filtered or all services based on selection
+- Dark theme customization for Leaflet UI components
+- Responsive design for mobile and desktop
+- Mock data system with serviceUtils.js for future Overpass API integration
+
+**Files Created:**
+- `src/data/mockServices.js` - Mock service data (50 services across 6 categories)
+- `src/utils/serviceUtils.js` - Service filtering and sorting utilities
+
+**Files Modified:**
+- `src/components/map/MapView.jsx` - Full Leaflet map implementation
+- `src/pages/NearbyServices.jsx` - Complete page with map, filters, and service list
+- `src/styles/index.css` - Leaflet dark theme customization
+- `package.json` - Added leaflet and react-leaflet dependencies
+
+**Decisions:**
+- Used Leaflet with OpenStreetMap (free, no API key needed)
+- Color-coded markers by category for visual distinction
+- Geolocation with fallback to New Delhi (default for India hackathon)
+- Mock data uses realistic coordinates around New Delhi NCR
+- Service cards use category icons (emoji) for quick identification
+- Get Directions uses Google Maps for universal availability
+- Multi-select filtering allows users to view multiple service types simultaneously
+- Grid layout for service cards provides better mobile readability
+- Dark theme customization maintains app's design consistency with Leaflet components
+
+**Pending:**
+- Overpass API integration for real-time service data
+- Advanced filtering (by distance, rating, open/closed status)
+- Service details modal/page
+- Voice SOS Feature (Phase 4A)
+- AI First Aid Assistant (Phase 4B)
+- Emergency Guide (Phase 4C)
+- Offline Emergency Mode (Phase 4D)

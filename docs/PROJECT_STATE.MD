@@ -9,11 +9,12 @@ RoadSoS is a road accident emergency and roadside assistance platform for the Na
 - Adi - Team Member
 
 ## Current Status
-Phase 2 - Live Location & SOS Dashboard **COMPLETE**.
+Phase 3 - Leaflet Map + Nearby Services **COMPLETE**.
 
 ## Completed Phases
 - ✅ **Phase 1**: Project Foundation (React + Vite, Routing, Theme, Components)
 - ✅ **Phase 2**: Live Location Detection & SOS Dashboard
+- ✅ **Phase 3**: Leaflet Map & Nearby Services
 
 ## Confirmed Decisions
 - UI Theme: Dark Navy + Cyan + White
@@ -27,18 +28,20 @@ Phase 2 - Live Location & SOS Dashboard **COMPLETE**.
   3. Offline Emergency Mode
 
 ## MVP Status
-MVP Phase 2 Complete. Core SOS Dashboard is functional with:
-- ✅ Live Location Detection
-- ✅ Location Persistence (localStorage)
-- ✅ Refresh & Share Location
-- ✅ Emergency Numbers (India)
-- ✅ Status Indicators
-- ✅ Mobile Responsive UI
+MVP Phase 3 Complete. Nearby Services functionality is now available with:
+- ✅ Leaflet Map Integration
+- ✅ User Location Marker
+- ✅ Service Markers (6 categories)
+- ✅ Category Filters
+- ✅ Service Cards with Distance & Contact Info
+- ✅ Directions to Google Maps
+- ✅ Mobile Responsive Design
+- ⏳ Real-time Service Data (Overpass API - optional)
 
 RoadSoS MVP Features:
 1. ✅ Home Page (Foundation)
 2. ✅ SOS Dashboard (Live Location + Emergency Numbers)
-3. ❌ Nearby Services
+3. ✅ Nearby Services (Map + Service List + Filters)
 4. ❌ AI First Aid Assistant
 5. ❌ Emergency Guide
 6. ❌ Global Emergency Numbers Selector
@@ -46,7 +49,8 @@ RoadSoS MVP Features:
 8. ❌ Offline Emergency Mode
 
 ## Next Tasks
-- Leaflet Map Integration (Phase 3A)
-- Nearby Services (Hospitals, Ambulances, Police) (Phase 3B)
 - AI Assistant (Phase 4A)
 - Voice SOS (Phase 4B)
+- Emergency Guide (Phase 4C)
+- Offline Emergency Mode (Phase 4D)
+- Overpass API Integration (optional, Phase 5)

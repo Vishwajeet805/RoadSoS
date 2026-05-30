@@ -30,12 +30,15 @@
 - [x] Status Indicators
 
 ## Phase 3 - Maps & Services
-- [ ] Map Integration (Leaflet)
-- [ ] Nearby Hospitals
-- [ ] Nearby Police Stations
-- [ ] Nearby Ambulance Services
-- [ ] Vehicle Assistance Services
-- [ ] Emergency Contacts Expansion
+- [x] Map Integration (Leaflet)
+- [x] Nearby Hospitals
+- [x] Nearby Police Stations
+- [x] Nearby Ambulance Services
+- [x] Vehicle Assistance Services (Towing, Puncture, Showrooms)
+- [x] Category Filters
+- [x] Service Distance Calculation
+- [x] Get Directions Feature
+- [x] Mobile Responsive Design
 
 ## Phase 4 - Innovation Features
 - [ ] AI First Aid Assistant
