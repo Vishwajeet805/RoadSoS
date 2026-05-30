@@ -169,11 +169,88 @@
 - Grid layout for service cards provides better mobile readability
 - Dark theme customization maintains app's design consistency with Leaflet components
 
+
+
+## Phase 4 - Real Nearby Services via Overpass API
+**Date:** 2026-05-31
+
+**Completed:**
+- Overpass API integration for real-time nearby services
+- Bounding box query generation from user location + radius
+- Service category mapping from OSM tags to app categories:
+  - Hospitals: `amenity=hospital`
+  - Police: `amenity=police`
+  - Ambulance: `amenity=ambulance_station`
+  - Vehicle Repair: `shop=car_repair`
+  - Puncture Shops: `shop=tyres`
+  - Vehicle Showrooms: `shop=car`
+- Dynamic search radius (2km, 5km default, 10km, 15km options)
+- 30-minute localStorage caching to reduce API calls
+- Fallback to mock services on API failure or timeout
+- Loading state with spinner during API fetch
+- Error state with user-friendly messages and retry button
+- Data source indicator (🌐 Live, 💾 Cached, 📋 Mock)
+- Service cards display real OSM data:
+  - Name
+  - Category
+  - Distance
+  - Address (from OSM)
+  - Phone number (if available)
+  - Opening hours (if available from OSM)
+- Timeout protection (15-second API call timeout)
+
+---
+
+## Phase 5 - AI First Aid Assistant
+**Date:** 2026-05-31
+
+**Completed:**
+- Gemini API integration (service wrapper with timeout and error handling)
+- Chat UI component with input box, quick prompts, loading state, and localStorage persistence
+- Fallback rule-based first aid responses when API is unavailable
+- Safety-first guidance and mandatory recommendation to contact emergency services
+- Documentation updates and Phase 5 project state entries
+
+**Files Created/Modified:**
+- `src/components/AIChat.jsx` (new)
+- `src/services/geminiService.js` (updated)
+- `src/pages/AIAssistant.jsx` (updated)
+- `docs/HISTORY.md`, `docs/PROJECT_STATE.md`, `docs/TASKS.md` (updated)
+
+**Notes:**
+- The assistant provides basic, non-diagnostic guidance and always encourages contacting emergency services.
+- Voice SOS feature deferred to a later phase.
+
+- Graceful degradation (partial failures per category)
+- Individual category fetch error handling
+- No excessive API requests (caching + timeout)
+- All services deduplicated and sorted by distance
+- Mobile responsive with improved UX for network states
+
+**Files Created:**
+- N/A (enhanced existing files)
+
+**Files Modified:**
+- `src/services/overpassService.js` - Full Overpass API implementation with caching
+- `src/pages/NearbyServices.jsx` - Integrated API, caching, fallback, loading/error states
+
+**Decisions:**
+- Overpass API chosen (free, no API key, OSM community-maintained)
+- 30-minute cache duration balances freshness vs. API load
+- Individual category queries allow partial success on API degradation
+- 15-second timeout prevents hanging requests
+- Search radius adjustable by user (better UX than fixed)
+- Mock data as graceful fallback ensures app always functional
+- Data source indicator helps users understand data freshness
+- Haversine formula used for accurate distance calculations
+- Error messages include retry option for user control
+
 **Pending:**
-- Overpass API integration for real-time service data
-- Advanced filtering (by distance, rating, open/closed status)
-- Service details modal/page
-- Voice SOS Feature (Phase 4A)
-- AI First Aid Assistant (Phase 4B)
-- Emergency Guide (Phase 4C)
-- Offline Emergency Mode (Phase 4D)
+- Advanced caching strategies (LRU, per-category cache)
+- Overpass API rate limiting (if needed at scale)
+- Service detail modal with full OSM data
+- AI First Aid Assistant (Phase 5A)
+- Voice SOS Feature (Phase 5B)
+- Emergency Guide (Phase 5C)
+- Offline Emergency Mode (Phase 5D)
+
