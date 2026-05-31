@@ -41,11 +41,28 @@ export default function useVoiceSOS({ onTrigger } = {}) {
     recognition.interimResults = true;
     recognition.lang = "en-IN";
 
+    // Increase sensitivity by setting a longer max audio duration
+    try {
+      recognition.maxAlternatives = 1;
+    } catch (e) {
+      // Property might not exist in all browsers
+    }
+
     recognition.onstart = () => {
       setListening(true);
       setStatus("listening");
       setError(null);
       setTranscript("");
+
+      // Set a timeout for no speech after 10 seconds (gives user time to speak)
+      noSpeechTimeoutRef.current = setTimeout(() => {
+        if (recognitionRef.current && document.hasFocus()) {
+          recognitionRef.current.stop();
+          setListening(false);
+          setStatus("error");
+          setError("⏱️ Timeout: No speech detected. Please try again and speak clearly.");
+        }
+      }, 10000);
     };
 
     recognition.onresult = (event) => {
@@ -100,6 +117,10 @@ export default function useVoiceSOS({ onTrigger } = {}) {
     };
 
     recognition.onend = () => {
+      // Clear all timeouts when recognition ends
+      if (noSpeechTimeoutRef.current) clearTimeout(noSpeechTimeoutRef.current);
+      if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
+
       setListening(false);
     };
 
@@ -127,6 +148,10 @@ export default function useVoiceSOS({ onTrigger } = {}) {
   };
 
   const stop = () => {
+    // Clear timeouts before stopping
+    if (noSpeechTimeoutRef.current) clearTimeout(noSpeechTimeoutRef.current);
+    if (silenceTimeoutRef.current) clearTimeout(silenceTimeoutRef.current);
+
     recognitionRef.current?.stop();
     setListening(false);
     setStatus("idle");
