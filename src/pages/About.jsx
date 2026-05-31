@@ -2,8 +2,8 @@ import { Users } from "lucide-react";
 
 const team = [
   { name: "Vishwajeet Singh", role: "Team Lead · Architecture · Integration" },
-  { name: "Shaurya", role: "Frontend UI · Responsiveness" },
-  { name: "Adi", role: "Maps · APIs · AI Integration" },
+  { name: "Shaurya Dubey", role: "Frontend UI · Responsiveness" },
+  { name: "Aditya Jain", role: "Maps · APIs · AI Integration" },
 ];
 
 export default function About() {

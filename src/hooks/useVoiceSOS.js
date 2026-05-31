@@ -1,6 +1,15 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
-const EMERGENCY_KEYWORDS = ["sos", "help", "emergency", "accident", "ambulance", "police"];
+const EMERGENCY_KEYWORDS = [
+  "sos",
+  "help",
+  "emergency",
+  "accident",
+  "ambulance",
+  "police",
+  "madad",
+  "bachao",
+];
 
 export default function useVoiceSOS({ onTrigger } = {}) {
   const [listening, setListening] = useState(false);
@@ -8,19 +17,29 @@ export default function useVoiceSOS({ onTrigger } = {}) {
   const [error, setError] = useState(null);
   const [transcript, setTranscript] = useState("");
   const [isSupported, setIsSupported] = useState(true);
+
   const recognitionRef = useRef(null);
+  const onTriggerRef = useRef(onTrigger);
 
   useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    onTriggerRef.current = onTrigger;
+  }, [onTrigger]);
+
+  useEffect(() => {
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
     if (!SpeechRecognition) {
       setIsSupported(false);
+      setStatus("unsupported");
       return;
     }
 
     const recognition = new SpeechRecognition();
+
     recognition.continuous = false;
     recognition.interimResults = true;
-    recognition.lang = "en-US";
+    recognition.lang = "en-IN";
 
     recognition.onstart = () => {
       setListening(true);
@@ -30,57 +49,86 @@ export default function useVoiceSOS({ onTrigger } = {}) {
     };
 
     recognition.onresult = (event) => {
-      let interim = "";
+      let finalText = "";
+      let interimText = "";
+
       for (let i = event.resultIndex; i < event.results.length; i++) {
-        const text = event.results[i].transcript.toLowerCase();
+        const text = event.results[i][0].transcript.toLowerCase();
+
         if (event.results[i].isFinal) {
-          const foundKeyword = EMERGENCY_KEYWORDS.find((kw) => text.includes(kw));
-          if (foundKeyword) {
-            setStatus("detected");
-            setTranscript(text);
-            onTrigger?.({ keyword: foundKeyword, fullText: text });
-          } else {
-            setStatus("no-command");
-            setTranscript(text);
-          }
+          finalText += text;
         } else {
-          interim += text;
+          interimText += text;
         }
       }
-      if (interim) setTranscript(interim);
+
+      const currentText = (finalText || interimText).trim();
+      setTranscript(currentText);
+
+      const foundKeyword = EMERGENCY_KEYWORDS.find((kw) =>
+        currentText.includes(kw)
+      );
+
+      if (foundKeyword) {
+        setStatus("detected");
+        setListening(false);
+
+        recognition.stop();
+
+        onTriggerRef.current?.({
+          keyword: foundKeyword,
+          fullText: currentText,
+        });
+      } else if (finalText) {
+        setStatus("no-command");
+      }
     };
 
     recognition.onerror = (event) => {
-      if (event.error === "permission-denied") {
-        setError("Microphone permission denied");
-      } else if (event.error === "no-speech") {
-        setError("No speech detected");
-      } else {
-        setError(`Error: ${event.error}`);
-      }
+      setListening(false);
       setStatus("error");
+
+      if (event.error === "not-allowed") {
+        setError("Microphone permission denied. Please allow microphone access.");
+      } else if (event.error === "no-speech") {
+        setError("No speech detected. Try again.");
+      } else if (event.error === "audio-capture") {
+        setError("No microphone found.");
+      } else {
+        setError(`Voice error: ${event.error}`);
+      }
     };
 
     recognition.onend = () => {
       setListening(false);
-      if (status === "idle" || status === "listening") {
-        setStatus("idle");
-      }
     };
 
     recognitionRef.current = recognition;
-  }, [onTrigger, status]);
+
+    return () => {
+      recognition.stop();
+    };
+  }, []);
 
   const start = () => {
     if (!isSupported) {
-      setError("Speech Recognition not supported");
+      setError("Speech Recognition not supported in this browser.");
       return;
     }
-    recognitionRef.current?.start();
+
+    try {
+      setError(null);
+      setTranscript("");
+      setStatus("starting");
+      recognitionRef.current?.start();
+    } catch {
+      setError("Voice recognition is already running. Please try again.");
+    }
   };
 
   const stop = () => {
     recognitionRef.current?.stop();
+    setListening(false);
     setStatus("idle");
   };
 
