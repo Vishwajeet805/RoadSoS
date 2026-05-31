@@ -24,12 +24,12 @@ function buildQuery(category, bbox) {
   const bboxStr = `${south},${west},${north},${east}`;
 
   const queries = {
-    hospital: `[bbox:${bboxStr}];(node["amenity"="hospital"];way["amenity"="hospital"];relation["amenity"="hospital"];);out center;`,
-    police: `[bbox:${bboxStr}];(node["amenity"="police"];way["amenity"="police"];);out center;`,
-    ambulance: `[bbox:${bboxStr}];(node["amenity"="ambulance_station"];way["amenity"="ambulance_station"];node["emergency"="ambulance"];);out center;`,
-    car_repair: `[bbox:${bboxStr}];(node["shop"="car_repair"];way["shop"="car_repair"];);out center;`,
-    tyres: `[bbox:${bboxStr}];(node["shop"="tyres"];way["shop"="tyres"];);out center;`,
-    car_showroom: `[bbox:${bboxStr}];(node["shop"="car"];way["shop"="car"];);out center;`,
+    hospital: `[out:json][timeout:25][bbox:${bboxStr}];(node["amenity"="hospital"];way["amenity"="hospital"];relation["amenity"="hospital"];);out center;`,
+    police: `[out:json][timeout:25][bbox:${bboxStr}];(node["amenity"="police"];way["amenity"="police"];);out center;`,
+    ambulance: `[out:json][timeout:25][bbox:${bboxStr}];(node["amenity"="ambulance_station"];way["amenity"="ambulance_station"];node["emergency"="ambulance"];);out center;`,
+    car_repair: `[out:json][timeout:25][bbox:${bboxStr}];(node["shop"="car_repair"];way["shop"="car_repair"];);out center;`,
+    tyres: `[out:json][timeout:25][bbox:${bboxStr}];(node["shop"="tyres"];way["shop"="tyres"];);out center;`,
+    car_showroom: `[out:json][timeout:25][bbox:${bboxStr}];(node["shop"="car"];way["shop"="car"];);out center;`,
   };
 
   return queries[category] || "";
@@ -63,7 +63,9 @@ async function fetchFromOverpass(query) {
 
 // Parse Overpass element to service object
 function parseElement(element, category) {
-  const name = element.tags?.name || `${category.charAt(0).toUpperCase() + category.slice(1)} Service`;
+  const name =
+    element.tags?.name ||
+    `${category.charAt(0).toUpperCase() + category.slice(1)} Service`;
   const lat = element.center?.lat || element.lat;
   const lng = element.center?.lon || element.lon;
   const address = element.tags?.["addr:street"] || "Address not available";
@@ -100,7 +102,14 @@ function mapCategory(osmCategory) {
 export async function fetchNearbyServices(lat, lng, radiusMeters = 5000) {
   try {
     const bbox = radiusToBbox(lat, lng, radiusMeters);
-    const categories = ["hospital", "police", "ambulance", "car_repair", "tyres", "car_showroom"];
+    const categories = [
+      "hospital",
+      "police",
+      "ambulance",
+      "car_repair",
+      "tyres",
+      "car_showroom",
+    ];
     const allServices = [];
     const failedCategories = [];
 
@@ -111,7 +120,9 @@ export async function fetchNearbyServices(lat, lng, radiusMeters = 5000) {
         const elements = await fetchFromOverpass(query);
 
         const services = elements
-          .filter((el) => el.lat && el.lon && el.tags?.name)
+          .filter(
+            (el) => (el.lat && el.lon) || (el.center?.lat && el.center?.lon),
+          )
           .map((el) => parseElement(el, mapCategory(category)));
 
         allServices.push(...services);
@@ -162,7 +173,10 @@ export function getCachedServices(lat, lng) {
 
 export function cacheServices(lat, lng, data) {
   try {
-    localStorage.setItem(`roadsos_services_cache_${lat}_${lng}`, JSON.stringify(data));
+    localStorage.setItem(
+      `roadsos_services_cache_${lat}_${lng}`,
+      JSON.stringify(data),
+    );
     return true;
   } catch {
     return false;
@@ -177,4 +191,3 @@ export function clearCache(lat, lng) {
     return false;
   }
 }
-

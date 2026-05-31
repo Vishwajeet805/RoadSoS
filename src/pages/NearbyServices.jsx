@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
-import { MapPin, Map, Filter, AlertCircle, RefreshCw } from "lucide-react";
+import { MapPin, Map, Filter, AlertCircle, RefreshCw, WifiOff } from "lucide-react";
 import MapView from "../components/map/MapView";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { mockServices, serviceCategories } from "../data/mockServices";
 import { getAllServices, filterServices } from "../utils/serviceUtils";
 import { formatDistance } from "../utils/locationUtils";
 import { fetchNearbyServices, getCachedServices, cacheServices } from "../services/overpassService";
+import useOfflineStatus from "../hooks/useOfflineStatus";
+import { offlineService } from "../services/offlineService";
 
 export default function NearbyServices() {
+  const { isOnline, isOffline, showNotification, notificationMessage } = useOfflineStatus();
   const [userLocation, setUserLocation] = useState(null);
   const [allServices, setAllServices] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
@@ -16,6 +19,7 @@ export default function NearbyServices() {
   const [error, setError] = useState(null);
   const [dataSource, setDataSource] = useState(null); // 'api', 'cache', 'mock'
   const [apiSearchRadius, setApiSearchRadius] = useState(5000); // 5km in meters
+  const [cachedTimestamp, setCachedTimestamp] = useState(null);
 
   // Get user location
   useEffect(() => {
@@ -83,6 +87,12 @@ export default function NearbyServices() {
         setAllServices(servicesWithDistance);
         setFilteredServices(servicesWithDistance);
         setDataSource(source);
+
+        // Cache services for offline mode
+        if (source === "api" || source === "cache") {
+          offlineService.cacheNearbyServices(servicesWithDistance);
+          setCachedTimestamp(new Date());
+        }
       } catch (err) {
         console.error("Error fetching services:", err);
         // Use mock data on any error
@@ -152,6 +162,37 @@ export default function NearbyServices() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12">
+      {/* Offline Notification */}
+      {showNotification && (
+        <div className={`mb-6 p-3 rounded-lg border-l-4 flex items-center gap-3 animate-fade-in ${
+          isOffline
+            ? "border-orange-400 bg-orange-500/10 text-orange-300"
+            : "border-emerald-400 bg-emerald-500/10 text-emerald-300"
+        }`}>
+          {isOffline ? (
+            <WifiOff size={20} className="flex-shrink-0" />
+          ) : (
+            <AlertCircle size={20} className="flex-shrink-0" />
+          )}
+          <p className="text-sm font-medium">{notificationMessage}</p>
+        </div>
+      )}
+
+      {/* Offline Mode Banner */}
+      {isOffline && (
+        <div className="mb-6 p-4 rounded-lg border-2 border-orange-400 bg-orange-500/5">
+          <div className="flex items-center gap-3">
+            <WifiOff size={24} className="text-orange-400" />
+            <div>
+              <p className="font-display font-bold text-orange-300">Offline Mode Active</p>
+              {cachedTimestamp && (
+                <p className="text-xs text-white/60">Last updated: {cachedTimestamp.toLocaleTimeString()}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex items-center gap-3 mb-8">
         <MapPin size={28} className="text-cyan-400" />
@@ -159,7 +200,7 @@ export default function NearbyServices() {
           <h1 className="font-display text-3xl font-bold">Nearby Services</h1>
           {dataSource && (
             <p className="text-xs text-white/40 mt-1">
-              Data: {dataSource === "api" ? "🌐 Live" : dataSource === "cache" ? "💾 Cached" : "📋 Mock"}
+              Data: {dataSource === "api" ? "🌐 Live" : dataSource === "cache" ? "💾 Cached" : "📋 Mock"} {isOffline && "· Offline Mode"}
             </p>
           )}
         </div>

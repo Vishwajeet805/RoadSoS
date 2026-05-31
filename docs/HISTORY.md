@@ -254,3 +254,139 @@
 - Emergency Guide (Phase 5C)
 - Offline Emergency Mode (Phase 5D)
 
+
+## Phase 6 - Voice SOS Activation
+**Date:** 2026-05-31
+
+**Completed:**
+- Web Speech API integration via useVoiceSOS hook
+- Continuous speech recognition with interim results display
+- Emergency keyword detection (SOS, Help, Emergency, Accident, Ambulance, Police)
+- VoiceSOS component with microphone button and status indicators
+- Listening state animation with pulsing cyan color
+- Status messages: Listening, Processing, Detected, No Command, Error
+- Transcript display of recognized speech
+- Emergency mode activation banner on Dashboard
+- Browser support detection with fallback message
+- Permission handling (microphone permission denied, no speech detected errors)
+- Mobile-friendly voice button with touch-responsive states
+- Accessibility support with aria-labels
+- Voice command integration with Dashboard emergency alert
+- Responsive design for all screen sizes
+
+**Files Created:**
+- `src/components/VoiceSOS.jsx` - Voice SOS UI component with microphone button, status display, and status messages
+
+**Files Modified:**
+- `src/hooks/useVoiceSOS.js` - Full Web Speech API implementation with keyword detection
+- `src/pages/Dashboard.jsx` - Integrated VoiceSOS component, emergency mode banner, voice command handling
+
+**Decisions:**
+- Web Speech API chosen for browser-native voice recognition (no backend needed)
+- Continuous recognition mode for natural conversation flow
+- Emergency keywords: SOS, Help, Emergency, Accident, Ambulance, Police (6 keywords)
+- Status color coding: cyan for listening, green for detected, red for errors
+- Transcript displayed for user confidence in recognition accuracy
+- Emergency mode auto-dismisses after 5 seconds
+- Browser support fallback message for unsupported browsers
+- en-US locale as default (can be extended for multilingual)
+- Microphone button scales and glows during active listening
+- Manual SOS button still available as alternative (not replacing)
+
+**Notes:**
+- Requires HTTPS in production (Web Speech API security requirement)
+- Microphone permission required (browser will prompt)
+- Works best with clear speech and low background noise
+- Single-word commands work (e.g., "help") and multi-word phrases (e.g., "call ambulance")
+- No internet connection required for speech recognition (browser-side processing)
+
+**Pending:**
+- Multilingual support (detect user language)
+- Advanced voice commands (e.g., "location", "directions")
+- Voice feedback (audio confirmation of detected commands)
+- Emergency Guide (Phase 7)
+- Offline Emergency Mode (Phase 8)
+
+
+## Phase 7 - Offline Emergency Mode
+**Date:** 2026-05-31
+
+**Completed:**
+- Online/offline status detection via useOfflineStatus hook
+- Connection state change notifications (online, offline, reconnected)
+- Offline notification banner on Dashboard, NearbyServices, EmergencyGuide
+- Offline Mode Active indicator showing cached data is being used
+- Emergency data caching system (offlineService):
+  - Emergency contacts cached on app load
+  - First aid guide cached on app load
+  - User location updated and cached continuously
+  - Nearby services cached after successful API fetch
+- Enhanced Service Worker with:
+  - Network-first strategy for API calls
+  - Cache-first strategy for assets
+  - Graceful fallback to offline pages
+  - Cache cleanup on activation
+- EmergencyGuide page implementation:
+  - First aid guide display with step-by-step instructions
+  - Guide selection interface with icon indicators
+  - Detailed view with numbered steps
+  - Emergency warning banner with call-to-action
+  - Offline-ready guide (no internet required)
+- NearbyServices offline support:
+  - Shows cached services when offline
+  - Displays "last updated" timestamp
+  - Automatically uses cached data with offline indicator
+- Dashboard offline mode:
+  - Displays offline status with icon
+  - Shows emergency numbers (always cached)
+  - Voice SOS continues to work offline
+  - Location continues to show last known position
+- Animations and notifications:
+  - Fade-in animation for notifications
+  - Color-coded notifications (orange for offline, green for online)
+  - Auto-dismiss notifications after 4 seconds
+- Last known location persistence and display
+
+**Files Created:**
+- `src/hooks/useOfflineStatus.js` - Online/offline status detection and notification management
+- `src/services/offlineService.js` - Offline data caching for emergency info, contacts, location, services
+
+**Files Modified:**
+- `src/pages/Dashboard.jsx` - Integrated offline status, notifications, data caching
+- `src/pages/NearbyServices.jsx` - Integrated offline support, cached services display
+- `src/pages/EmergencyGuide.jsx` - Implemented full first aid guide with offline support
+- `public/sw.js` - Enhanced Service Worker with network/cache strategies
+- `src/styles/index.css` - Added fade-in animation for notifications
+
+**Decisions:**
+- Online/offline detection via navigator.onLine and window online/offline events
+- LocalStorage used for offline data persistence (no quota issues for emergency data)
+- Service Worker uses network-first for APIs (fresh data when available) and cache-first for assets
+- Emergency data cached proactively to ensure availability offline
+- User location continuously cached as it updates
+- Nearby services cached whenever successfully fetched (automatic offline support)
+- Notifications auto-dismiss to keep UI clean
+- Orange color (#f97316) chosen for offline indicators (distinct from cyan and red)
+- First aid guide implemented as interactive list with detailed step-by-step view
+- All offline features are non-intrusive (don't redesign existing pages)
+- Emergency Guide pages are fully functional offline
+
+**Notes:**
+- All emergency functions work offline: SOS button, emergency numbers, voice SOS, location display
+- Nearby services gracefully fall back to cached data when offline
+- First aid guide is fully available offline
+- Cached data timestamp shown to help users understand freshness
+- App remains usable with any internet connectivity state
+- Service Worker caches automatically improve load times even when online
+
+**Browser Compatibility:**
+- Service Workers supported in all modern browsers
+- Navigator.onLine API supported in all modern browsers
+- LocalStorage supported in all modern browsers
+- Falls back gracefully if any feature unavailable
+
+**Pending:**
+- Service worker update notifications (notify user when new version available)
+- Offline map caching (currently uses online tile server)
+- Background sync for logging (when connectivity restored)
+- Emergency Guide (Phase 8)
