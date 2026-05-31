@@ -154,17 +154,20 @@ export default function NearbyServices() {
 
   if (!userLocation) {
     return (
-      <div className="max-w-6xl mx-auto px-4 py-12 text-center">
-        <p className="text-white/40">Detecting location...</p>
+      <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-white/40 font-semibold">Detecting location...</p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
+    <div className="min-h-screen bg-gradient-dark">
+      <div className="max-w-6xl mx-auto px-4 py-12">
       {/* Offline Notification */}
       {showNotification && (
-        <div className={`mb-6 p-3 rounded-lg border-l-4 flex items-center gap-3 animate-fade-in ${
+        <div className={`mb-6 p-4 rounded-xl border-l-4 flex items-center gap-3 animate-fade-in glass-md ${
           isOffline
             ? "border-orange-400 bg-orange-500/10 text-orange-300"
             : "border-emerald-400 bg-emerald-500/10 text-emerald-300"
@@ -180,13 +183,15 @@ export default function NearbyServices() {
 
       {/* Offline Mode Banner */}
       {isOffline && (
-        <div className="mb-6 p-4 rounded-lg border-2 border-orange-400 bg-orange-500/5">
-          <div className="flex items-center gap-3">
-            <WifiOff size={24} className="text-orange-400" />
+        <div className="mb-6 p-6 rounded-2xl border-2 border-orange-400/50 bg-gradient-to-r from-orange-500/10 to-orange-600/5 glass-md">
+          <div className="flex items-center gap-4">
+            <div className="p-3 bg-orange-500/20 rounded-xl">
+              <WifiOff size={24} className="text-orange-400" />
+            </div>
             <div>
-              <p className="font-display font-bold text-orange-300">Offline Mode Active</p>
+              <p className="font-display font-bold text-orange-300 text-lg">Offline Mode Active</p>
               {cachedTimestamp && (
-                <p className="text-xs text-white/60">Last updated: {cachedTimestamp.toLocaleTimeString()}</p>
+                <p className="text-sm text-white/60 mt-1">Last updated: {cachedTimestamp.toLocaleTimeString()}</p>
               )}
             </div>
           </div>
@@ -194,50 +199,56 @@ export default function NearbyServices() {
       )}
 
       {/* Header */}
-      <div className="flex items-center gap-3 mb-8">
-        <MapPin size={28} className="text-cyan-400" />
-        <div className="flex-1">
-          <h1 className="font-display text-3xl font-bold">Nearby Services</h1>
-          {dataSource && (
-            <p className="text-xs text-white/40 mt-1">
-              Data: {dataSource === "api" ? "🌐 Live" : dataSource === "cache" ? "💾 Cached" : "📋 Mock"} {isOffline && "· Offline Mode"}
-            </p>
-          )}
+      <div className="flex items-center gap-4 mb-12 animate-slide-in-left">
+        <div className="p-4 bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 rounded-2xl">
+          <Map size={32} className="text-cyan-400" />
+        </div>
+        <div>
+          <h1 className="font-display text-5xl sm:text-6xl font-black tracking-tight">Nearby Services</h1>
+          <p className="text-white/50 text-sm mt-2 font-semibold uppercase tracking-widest">Real-time emergency facilities</p>
         </div>
       </div>
 
       {/* Error State */}
       {error && (
-        <div className="mb-6 card-glass p-4 border border-emergency/50 bg-emergency/10 flex items-start gap-3">
-          <AlertCircle size={20} className="text-emergency flex-shrink-0 mt-0.5" />
-          <div className="flex-1">
-            <p className="text-sm text-emergency">{error}</p>
-            <button
-              onClick={handleRetry}
-              className="text-xs text-cyan-400 hover:text-cyan-300 mt-2 flex items-center gap-1"
-            >
-              <RefreshCw size={12} /> Retry
-            </button>
+        <div className="mb-6 card-premium p-6 rounded-3xl border border-emergency/30 bg-gradient-to-r from-emergency/10 to-red-600/10 glass-md flex flex-col gap-4 animate-slide-up">
+          <div className="flex items-start gap-3">
+            <div className="p-3 bg-emergency/15 rounded-2xl">
+              <AlertCircle size={24} className="text-emergency" />
+            </div>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-emergency">Error loading services</p>
+              <p className="text-sm text-white/70 mt-2">{error}</p>
+            </div>
           </div>
+          <button
+            onClick={handleRetry}
+            className="self-start px-5 py-2 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-200 text-sm rounded-2xl transition-all shadow-glow-cyan"
+          >
+            <RefreshCw size={14} className="inline-block mr-2" /> Retry
+          </button>
         </div>
       )}
 
       {/* Search Radius Adjustment */}
-      <div className="mb-6 card-glass p-4">
-        <label className="text-sm font-semibold flex items-center gap-2">
-          <span>Search Radius:</span>
+      <div className="mb-8 card-premium p-6 rounded-3xl border border-white/15 bg-white/5 backdrop-blur-xl">
+        <div className="flex flex-col md:flex-row gap-4 md:items-center md:justify-between">
+          <div>
+            <p className="text-sm text-white/70 mb-2">Refine your search range for nearby help.</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-white/40">Current radius</p>
+          </div>
           <select
             value={apiSearchRadius}
             onChange={(e) => setApiSearchRadius(Number(e.target.value))}
             disabled={loading}
-            className="bg-navy-800 text-cyan-400 px-2 py-1 rounded text-xs border border-cyan-500/30 disabled:opacity-50"
+            className="bg-white/10 text-cyan-300 px-4 py-3 rounded-2xl text-sm border border-cyan-500/20 outline-none focus:ring-2 focus:ring-cyan-400/30 disabled:opacity-50 transition"
           >
             <option value={2000}>2 km</option>
             <option value={5000}>5 km (default)</option>
             <option value={10000}>10 km</option>
             <option value={15000}>15 km</option>
           </select>
-        </label>
+        </div>
       </div>
 
       {/* Loading State */}
@@ -251,32 +262,37 @@ export default function NearbyServices() {
       {!loading && (
         <>
           {/* Map Section */}
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
+          <div className="mb-8 card-premium rounded-3xl border border-white/10 overflow-hidden shadow-glow-cyan">
+            <div className="flex items-center gap-2 px-6 py-5 border-b border-white/10 bg-white/5">
               <Map size={20} className="text-cyan-400" />
               <h2 className="text-lg font-semibold">Map View</h2>
             </div>
-            <MapView center={userLocation} markers={allServices} />
+            <div className="h-[420px] bg-navy-950/70">
+              <MapView center={userLocation} markers={allServices} />
+            </div>
           </div>
 
           {/* Filter Section */}
-          <div className="mb-8">
-            <div className="flex items-center gap-2 mb-4">
-              <Filter size={20} className="text-cyan-400" />
-              <h2 className="text-lg font-semibold">Filter by Category</h2>
+          <div className="mb-8 card-premium p-6 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Filter size={20} className="text-cyan-400" />
+                <h2 className="text-lg font-semibold">Filter by Category</h2>
+              </div>
+              <p className="text-xs uppercase tracking-[0.24em] text-white/40">Tap categories to refine the list</p>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {Object.entries(serviceCategories).map(([key, value]) => (
                 <button
                   key={key}
                   onClick={() => toggleCategory(key)}
-                  className={`px-3 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
+                  className={`flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-sm font-semibold transition-all ${
                     selectedCategories.includes(key)
-                      ? "bg-cyan-500 text-white"
-                      : "card-glass text-white/60 hover:text-white"
+                      ? "bg-cyan-500 text-navy-950 shadow-glow-cyan"
+                      : "bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                   }`}
                 >
-                  <span className="mr-1">{value.icon}</span>
+                  <span>{value.icon}</span>
                   {value.label}
                 </button>
               ))}
@@ -293,81 +309,79 @@ export default function NearbyServices() {
             </div>
 
             {filteredServices.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto pr-2">
+              <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 max-h-[32rem] overflow-y-auto pr-2 pb-2">
                 {filteredServices.map((service) => (
                   <div
                     key={service.id}
-                    className="card-glass p-4 hover:bg-white/8 transition-all"
+                    className="card-premium p-6 rounded-3xl border border-white/10 bg-white/5 transition-all hover:-translate-y-1 hover:border-cyan-400/20 hover:shadow-glow-cyan"
                   >
-                    <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-start justify-between gap-4 mb-4">
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-lg">
+                        <div className="flex items-center gap-3 mb-2">
+                          <div className="w-11 h-11 rounded-2xl bg-cyan-500/10 text-cyan-300 grid place-items-center text-xl">
                             {serviceCategories[service.category]?.icon || "📍"}
-                          </span>
-                          <p className="font-semibold text-white text-sm">{service.name}</p>
+                          </div>
+                          <div>
+                            <p className="font-semibold text-white text-base">{service.name}</p>
+                            <p className="text-white/40 text-xs capitalize">{serviceCategories[service.category]?.label || service.category}</p>
+                          </div>
                         </div>
-                        <p className="text-white/40 text-xs capitalize">
-                          {serviceCategories[service.category]?.label || service.category}
-                        </p>
                       </div>
-                      <span className="text-cyan-400 text-xs flex items-center gap-1 whitespace-nowrap">
-                        <MapPin size={12} /> {formatDistance(service.distance)}
-                      </span>
+                      <div className="text-right text-cyan-300 text-xs font-semibold uppercase tracking-[0.16em]">
+                        <span className="flex items-center justify-end gap-1">
+                          <MapPin size={12} />
+                          {formatDistance(service.distance)} km
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="mt-3 flex flex-col gap-2">
-                      {service.address && (
-                        <p className="text-xs text-white/50">{service.address}</p>
-                      )}
+                    <div className="space-y-2 text-sm text-white/60">
+                      {service.address && <p>{service.address}</p>}
                       {service.phone && (
                         <a
                           href={`tel:${service.phone}`}
-                          className="text-xs text-white/50 hover:text-cyan-400 transition-colors"
+                          className="block text-white/70 hover:text-cyan-300 transition-colors"
                         >
                           📞 {service.phone}
                         </a>
                       )}
-                      {service.opening_hours && (
-                        <p className="text-xs text-white/40">⏰ {service.opening_hours}</p>
-                      )}
+                      {service.opening_hours && <p>⏰ {service.opening_hours}</p>}
                       {service.status && !service.opening_hours && (
-                        <p className="text-xs text-white/40">
-                          Status: <span className="text-cyan-300">{service.status}</span>
+                        <p>
+                          Status: <span className="text-white">{service.status}</span>
                         </p>
                       )}
-                      <button
-                        onClick={() => handleDirections(service)}
-                        className="mt-2 w-full px-2 py-1 bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-400 text-xs rounded transition-colors"
-                      >
-                        📍 Get Directions
-                      </button>
                     </div>
+                    <button
+                      onClick={() => handleDirections(service)}
+                      className="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-2xl bg-cyan-500/15 px-4 py-3 text-sm font-semibold text-cyan-200 hover:bg-cyan-500/30 transition-all"
+                    >
+                      📍 Get Directions
+                    </button>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="card-glass p-8 text-center text-white/40">
+              <div className="card-premium p-8 rounded-3xl border border-white/10 bg-white/5 text-center text-white/50">
                 <p className="text-sm">No services found for selected categories</p>
               </div>
             )}
           </div>
 
           {/* Info Footer */}
-          <div className="mt-8 card-glass p-6 text-center text-white/40 border border-white/5">
-            <p className="text-xs">
+          <div className="mt-8 card-premium p-6 rounded-3xl border border-white/10 bg-white/5 text-center text-white/40">
+            <p className="text-xs leading-6">
               {dataSource === "api"
                 ? "✅ Real-time data from OpenStreetMap via Overpass API"
                 : dataSource === "cache"
                 ? "💾 Cached data from last 30 minutes"
                 : "📋 Using demo data (API unavailable)"}
             </p>
-            <p className="text-xs mt-2 text-white/20">Directions open in Google Maps</p>
+            <p className="text-xs mt-2 text-white/30">Directions open in Google Maps</p>
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }
-
-
