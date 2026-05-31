@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { getFirstAidGuidance } from "../services/geminiService";
 import LoadingSpinner from "./ui/LoadingSpinner";
 
@@ -116,23 +117,47 @@ export default function AIChat() {
         <p className="text-xs text-white/50">This assistant provides basic first aid guidance and does not replace professional emergency services.</p>
       </div>
 
-      <div className="flex gap-2 mb-4">
+      <div className="flex gap-2 mb-4 flex-wrap">
         {Object.keys(fallbackRules).map((k) => (
           <button
             key={k}
             onClick={() => handleQuickPrompt(k)}
-            className="px-3 py-1 bg-emerald-600/20 text-emerald-300 rounded text-sm hover:bg-emerald-600/30"
+            className="px-4 py-2 bg-emerald-600/20 text-emerald-300 rounded border border-emerald-600/40 text-sm hover:bg-emerald-600/30 hover:border-emerald-500/60 transition font-medium"
           >
             {k}
           </button>
         ))}
       </div>
 
-      <div className="h-64 overflow-y-auto mb-4 p-3 bg-white/5 rounded">
+      <div className="h-96 overflow-y-auto mb-4 p-4 bg-white/5 rounded space-y-4">
         {messages.length === 0 && <p className="text-sm text-white/40">Ask for simple first-aid steps or use a quick prompt.</p>}
         {messages.map((m) => (
-          <div key={m.id} className={`mb-3 ${m.sender === "user" ? "text-right" : "text-left"}`}>
-            <div className={`${m.sender === "user" ? "inline-block bg-cyan-500/10 text-cyan-200" : "inline-block bg-white/6 text-white/90"} px-3 py-2 rounded max-w-[85%]`}>{m.text}</div>
+          <div key={m.id} className={`flex ${m.sender === "user" ? "justify-end" : "justify-start"}`}>
+            <div className={`${m.sender === "user" ? "bg-cyan-500/20 text-cyan-100 border border-cyan-500/30" : "bg-emerald-500/10 text-white/90 border border-emerald-500/20"} px-4 py-3 rounded-lg max-w-[75%]`}>
+              {m.sender === "user" ? (
+                <p className="text-sm">{m.text}</p>
+              ) : (
+                <div className="prose prose-invert prose-sm max-w-none">
+                  <ReactMarkdown
+                    components={{
+                      p: ({node, ...props}) => <p className="text-sm mb-2 last:mb-0" {...props} />,
+                      ul: ({node, ...props}) => <ul className="text-sm list-disc list-inside space-y-1 mb-2" {...props} />,
+                      ol: ({node, ...props}) => <ol className="text-sm list-decimal list-inside space-y-1 mb-2" {...props} />,
+                      li: ({node, ...props}) => <li className="text-sm" {...props} />,
+                      strong: ({node, ...props}) => <strong className="font-semibold text-emerald-300" {...props} />,
+                      em: ({node, ...props}) => <em className="italic text-emerald-200" {...props} />,
+                      h1: ({node, ...props}) => <h1 className="text-base font-bold mb-2 mt-2" {...props} />,
+                      h2: ({node, ...props}) => <h2 className="text-sm font-bold mb-2 mt-2 text-emerald-300" {...props} />,
+                      h3: ({node, ...props}) => <h3 className="text-sm font-semibold mb-1" {...props} />,
+                      code: ({node, ...props}) => <code className="bg-black/30 px-1 py-0.5 rounded text-emerald-300 text-xs" {...props} />,
+                      blockquote: ({node, ...props}) => <blockquote className="border-l-2 border-emerald-500 pl-2 italic text-white/70" {...props} />,
+                    }}
+                  >
+                    {m.text}
+                  </ReactMarkdown>
+                </div>
+              )}
+            </div>
           </div>
         ))}
         <div ref={messagesEndRef} />
@@ -142,7 +167,7 @@ export default function AIChat() {
 
       <form onSubmit={handleSubmit} className="flex gap-2">
         <input
-          className="flex-1 px-3 py-2 rounded bg-white/5 placeholder:text-white/30"
+          className="flex-1 px-4 py-2 rounded bg-white/8 border border-white/10 placeholder:text-white/30 text-white/90 focus:outline-none focus:border-emerald-500/50 focus:bg-white/10 transition"
           placeholder="Describe the situation briefly (e.g. 'person bleeding from leg')"
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -151,7 +176,7 @@ export default function AIChat() {
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-emerald-500 rounded disabled:opacity-50"
+          className="px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           {loading ? <LoadingSpinner /> : "Send"}
         </button>
