@@ -14,18 +14,22 @@ export async function getFirstAidGuidance(query) {
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
 
   try {
-    const endpoint = "https://generative.googleapis.com/v1/models/text-bison-001:generate";
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
     const body = {
-      prompt: {
-        text: `You are a concise, safety-first first-aid assistant for road accidents. Provide short, step-by-step emergency first-aid guidance focused on immediate actions a bystander can take. Always recommend contacting emergency services for serious cases and do NOT attempt to diagnose medical conditions. Keep the response clear and under 300 tokens. Query: ${query}`
-      },
-      maxOutputTokens: 300
+      contents: [
+        {
+          parts: [
+            {
+              text: `You are a concise, safety-first first-aid assistant for road accidents. Provide short, step-by-step emergency first-aid guidance focused on immediate actions a bystander can take. Always recommend contacting emergency services for serious cases and do NOT attempt to diagnose medical conditions. Keep the response clear and under 300 tokens. Query: ${query}`
+            }
+          ]
+        }
+      ]
     };
 
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${API_KEY}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify(body),
@@ -43,8 +47,8 @@ export async function getFirstAidGuidance(query) {
 
     const data = await res.json();
 
-    // Try common response shapes from Generative APIs
-    const candidate = data?.candidates?.[0]?.content ?? data?.outputs?.[0]?.content ?? data?.choices?.[0]?.message?.content ?? null;
+    // Gemini API returns candidates array with parts containing text
+    const candidate = data?.candidates?.[0]?.content?.parts?.[0]?.text ?? null;
     if (candidate) return candidate;
 
     // Fallback to stringified payload if shape differs
