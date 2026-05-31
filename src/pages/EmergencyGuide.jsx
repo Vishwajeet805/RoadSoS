@@ -71,7 +71,7 @@ export default function EmergencyGuide() {
             >
               <div className="text-6xl mb-4 group-hover:scale-110 transition-transform">{item.icon}</div>
               <h2 className="font-display font-bold text-xl mb-2 group-hover:text-cyan-300 transition-colors">{item.title}</h2>
-              <p className="text-white/60 text-sm">\u2192 {item.steps?.length || 0} steps</p>
+              <p className="text-white/60 text-sm">{item.steps?.length || 0} steps</p>
             </button>
           ))}
         </div>
