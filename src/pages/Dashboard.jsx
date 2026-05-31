@@ -1,5 +1,6 @@
 import { Siren, MapPin, Phone, Wifi, AlertTriangle, WifiOff, Bell } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import SOSButton from "../components/ui/SOSButton";
 import LocationCard from "../components/LocationCard";
 import QuickActionsCard from "../components/QuickActionsCard";
@@ -8,12 +9,18 @@ import VoiceSOS from "../components/VoiceSOS";
 import useGeolocation from "../hooks/useGeolocation";
 import useOfflineStatus from "../hooks/useOfflineStatus";
 import { offlineService } from "../services/offlineService";
+import { getNumbersByCountry } from "../services/emergencyNumbers";
 
 export default function Dashboard() {
   const { location, error, loading, accuracy, timestamp, getLocation, clearError, isFromStorage } = useGeolocation();
   const { isOnline, isOffline, showNotification, notificationMessage } = useOfflineStatus();
   const [emergencyMode, setEmergencyMode] = useState(false);
+  const [sosActive, setSosActive] = useState(false);
   const [emergencyKeyword, setEmergencyKeyword] = useState(null);
+  const [voiceCommand, setVoiceCommand] = useState("");
+  const emergencySectionRef = useRef(null);
+  const navigate = useNavigate();
+  const numbers = getNumbersByCountry("IN");
 
   // Cache location and emergency data when online or when location updates
   useEffect(() => {
@@ -35,11 +42,18 @@ export default function Dashboard() {
 
   const handleEmergencyActivated = () => {
     setEmergencyMode(true);
-    setTimeout(() => setEmergencyMode(false), 5000);
+    setSosActive(true);
+
+    setTimeout(() => setEmergencyMode(false), 8000);
+
+    setTimeout(() => {
+      emergencySectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 150);
   };
 
-  const handleVoiceSOS = ({ keyword }) => {
+  const handleVoiceSOS = ({ keyword, fullText }) => {
     setEmergencyKeyword(keyword);
+    setVoiceCommand(fullText || keyword || "Emergency command");
     handleEmergencyActivated();
   };
 
@@ -87,8 +101,9 @@ export default function Dashboard() {
                 <AlertTriangle size={24} className="text-emergency" />
               </div>
               <div>
-                <p className="font-display font-bold text-emergency text-lg">Emergency Mode Active!</p>
-                <p className="text-sm text-white/70 mt-1">Keyword detected: <span className="font-display font-black uppercase">{emergencyKeyword}</span></p>
+                <p className="font-display font-bold text-emergency text-lg">Emergency Mode Activated</p>
+                <p className="text-sm text-white/70 mt-1">Detected command: <span className="font-display font-black uppercase">{voiceCommand || emergencyKeyword}</span></p>
+                <p className="text-xs text-white/60 mt-2">Use the emergency contacts below or open nearby services.</p>
               </div>
             </div>
           </div>
@@ -148,6 +163,69 @@ export default function Dashboard() {
         <div className="mb-8">
           <VoiceSOS onEmergencyDetected={handleVoiceSOS} />
         </div>
+
+        {/* Emergency Support Section */}
+        {sosActive && (
+          <div
+            id="emergency-section"
+            ref={emergencySectionRef}
+            className="mb-8 rounded-3xl border border-emergency/50 bg-emergency/10 p-6 shadow-emergency-glow"
+          >
+            <div className="flex flex-col gap-4">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p className="text-sm uppercase tracking-[0.2em] text-emergency font-bold">Emergency Assistance</p>
+                  <h2 className="text-2xl font-display font-black text-white">Immediate Help Activated</h2>
+                </div>
+                <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-2 text-xs text-white/80">
+                  Detected command: <strong className="ml-2 text-white">{voiceCommand || emergencyKeyword}</strong>
+                </span>
+              </div>
+
+              <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                <p className="text-sm text-white/80">Use the emergency contacts below or open nearby services.</p>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-3">
+                <a
+                  href="tel:112"
+                  className="inline-flex items-center justify-center rounded-2xl bg-red-600 px-4 py-4 text-sm font-semibold text-white transition hover:bg-red-700"
+                >
+                  Call 112
+                </a>
+                <a
+                  href={`tel:${numbers.ambulance}`}
+                  className="inline-flex items-center justify-center rounded-2xl bg-white/10 px-4 py-4 text-sm font-semibold text-white transition hover:bg-white/20"
+                >
+                  Call Ambulance
+                </a>
+                <a
+                  href={`tel:${numbers.police}`}
+                  className="inline-flex items-center justify-center rounded-2xl bg-white/10 px-4 py-4 text-sm font-semibold text-white transition hover:bg-white/20"
+                >
+                  Call Police
+                </a>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-2">
+                <button
+                  type="button"
+                  onClick={() => navigate("/nearby")}
+                  className="rounded-2xl bg-cyan-500 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:bg-cyan-400"
+                >
+                  Find Nearby Help
+                </button>
+                <button
+                  type="button"
+                  onClick={() => navigate("/assistant")}
+                  className="rounded-2xl bg-white/10 px-4 py-4 text-sm font-semibold text-white transition hover:bg-white/20"
+                >
+                  Open First Aid Assistant
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Emergency Numbers */}
         <div className="mb-8">

@@ -9,7 +9,7 @@ RoadSoS is a road accident emergency and roadside assistance platform for the Na
 - Adi - Team Member
 
 ## Current Status
-Phase 7 - Offline Emergency Mode **COMPLETE**.
+Phase 7 - Offline Emergency Mode **COMPLETE**. Voice SOS action integration is also complete.
 
 ## Completed Phases
 - ✅ **Phase 1**: Project Foundation (React + Vite, Routing, Theme, Components)

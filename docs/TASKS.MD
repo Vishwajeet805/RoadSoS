@@ -44,7 +44,7 @@
 
 ## Phase 4 - Innovation Features
 - [x] AI First Aid Assistant
-- [ ] Voice SOS
+- [x] Voice SOS
 - [ ] Offline Emergency Mode
 
 ## Phase 5 - Final Submission
