@@ -8,7 +8,8 @@ const team = [
 
 export default function About() {
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
+    <div className="min-h-screen bg-gradient-dark">
+      <div className="max-w-3xl mx-auto px-4 py-12">
       <div className="flex items-center gap-3 mb-8">
         <Users size={28} className="text-cyan-400" />
         <h1 className="font-display text-3xl font-bold">About RoadSoS</h1>
@@ -29,6 +30,7 @@ export default function About() {
           </div>
         ))}
       </div>
+    </div>
     </div>
   );
 }

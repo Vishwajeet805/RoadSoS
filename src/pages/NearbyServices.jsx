@@ -165,38 +165,38 @@ export default function NearbyServices() {
   return (
     <div className="min-h-screen bg-gradient-dark">
       <div className="max-w-6xl mx-auto px-4 py-12">
-      {/* Offline Notification */}
-      {showNotification && (
-        <div className={`mb-6 p-4 rounded-xl border-l-4 flex items-center gap-3 animate-fade-in glass-md ${
-          isOffline
-            ? "border-orange-400 bg-orange-500/10 text-orange-300"
-            : "border-emerald-400 bg-emerald-500/10 text-emerald-300"
-        }`}>
-          {isOffline ? (
-            <WifiOff size={20} className="flex-shrink-0" />
-          ) : (
-            <AlertCircle size={20} className="flex-shrink-0" />
-          )}
-          <p className="text-sm font-medium">{notificationMessage}</p>
-        </div>
-      )}
+        {/* Offline Notification */}
+        {showNotification && (
+          <div className={`mb-6 p-4 rounded-xl border-l-4 flex items-center gap-3 animate-fade-in glass-md ${
+            isOffline
+              ? "border-orange-400 bg-orange-500/10 text-orange-300"
+              : "border-emerald-400 bg-emerald-500/10 text-emerald-300"
+          }`}>
+            {isOffline ? (
+              <WifiOff size={20} className="flex-shrink-0" />
+            ) : (
+              <AlertCircle size={20} className="flex-shrink-0" />
+            )}
+            <p className="text-sm font-medium">{notificationMessage}</p>
+          </div>
+        )}
 
-      {/* Offline Mode Banner */}
-      {isOffline && (
-        <div className="mb-6 p-6 rounded-2xl border-2 border-orange-400/50 bg-gradient-to-r from-orange-500/10 to-orange-600/5 glass-md">
-          <div className="flex items-center gap-4">
-            <div className="p-3 bg-orange-500/20 rounded-xl">
-              <WifiOff size={24} className="text-orange-400" />
-            </div>
-            <div>
-              <p className="font-display font-bold text-orange-300 text-lg">Offline Mode Active</p>
-              {cachedTimestamp && (
-                <p className="text-sm text-white/60 mt-1">Last updated: {cachedTimestamp.toLocaleTimeString()}</p>
-              )}
+        {/* Offline Mode Banner */}
+        {isOffline && (
+          <div className="mb-6 p-6 rounded-2xl border-2 border-orange-400/50 bg-gradient-to-r from-orange-500/10 to-orange-600/5 glass-md">
+            <div className="flex items-center gap-4">
+              <div className="p-3 bg-orange-500/20 rounded-xl">
+                <WifiOff size={24} className="text-orange-400" />
+              </div>
+              <div>
+                <p className="font-display font-bold text-orange-300 text-lg">Offline Mode Active</p>
+                {cachedTimestamp && (
+                  <p className="text-sm text-white/60 mt-1">Last updated: {cachedTimestamp.toLocaleTimeString()}</p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Header */}
       <div className="flex items-center gap-4 mb-12 animate-slide-in-left">

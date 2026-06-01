@@ -138,7 +138,7 @@ export default function Dashboard() {
             </div>
 
             {/* Status Cards */}
-            <div className="grid grid-cols-3 gap-3 animate-slide-up" style={{ animationDelay: "150ms" }}>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 animate-slide-up" style={{ animationDelay: "150ms" }}>
               {[
                 { icon: MapPin, label: "Location", value: locationStatus, color: error ? "text-emergency" : location ? "text-cyan-400" : "text-white/60" },
                 { icon: Phone, label: "Emergency", value: "112", color: "text-emergency" },
