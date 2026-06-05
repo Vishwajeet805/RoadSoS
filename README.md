@@ -1,79 +1,114 @@
 # 🚨 RoadSoS – AI-Powered Emergency & Roadside Assistance Platform
 
-> Every Second Matters During an Emergency
+<div align="center">
 
-RoadSoS is an AI-powered emergency response and roadside assistance platform designed to reduce response time during road accidents and emergencies. It helps users quickly locate nearby emergency services, access first-aid guidance, activate SOS through voice commands, and continue accessing critical emergency information even without internet connectivity.
+![RoadSoS](https://img.shields.io/badge/RoadSoS-Road%20Safety%20Platform-red?style=for-the-badge)
 
-Built for the **National Road Safety Hackathon 2026 (IIT Madras)**.
+![React](https://img.shields.io/badge/React-19-blue?logo=react)
+![Vite](https://img.shields.io/badge/Vite-Latest-purple?logo=vite)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-Latest-cyan?logo=tailwindcss)
+![Leaflet](https://img.shields.io/badge/Leaflet-Maps-green?logo=leaflet)
+![Gemini](https://img.shields.io/badge/Google-Gemini-orange?logo=google)
 
----
+### Every Second Matters During an Emergency
 
-## 📌 Problem Statement
+An AI-powered emergency response and roadside assistance platform designed to reduce emergency response time, provide instant access to nearby help, and assist users during road accidents.
 
-During road accidents and roadside emergencies, victims and bystanders often lose valuable time searching for:
+Built for **National Road Safety Hackathon 2026 – IIT Madras**
 
-- Hospitals
-- Ambulance Services
-- Police Stations
-- Towing Services
-- Vehicle Rescue Services
-- Puncture Shops
-- Emergency Contacts
-
-Additional challenges include:
-
-- Lack of first-aid knowledge
-- Panic situations
-- Poor internet connectivity
-- Unfamiliar locations
-
-RoadSoS addresses these issues by providing a single integrated emergency assistance platform.
+</div>
 
 ---
 
-## ✨ Key Features
+# 📌 Problem Statement
 
-### 🚑 Emergency Services
+During road accidents and emergencies, victims and bystanders often face several challenges:
 
-- Nearby Hospitals
-- Nearby Ambulance Services
-- Nearby Police Stations
+- Difficulty locating nearby hospitals
+- Difficulty finding ambulance services
+- Lack of immediate first-aid guidance
+- Poor connectivity in remote areas
+- Panic situations causing delays
+- Difficulty finding police stations
+- Lack of quick roadside assistance
+- Multiple applications required during emergencies
 
-### 🚗 Vehicle Assistance
+RoadSoS solves these problems through a unified emergency assistance platform.
 
-- Towing Services
-- Vehicle Rescue Services
-- Puncture Shops
-- Vehicle Showrooms
-- Vehicle Repair Centers
+---
 
-### 📍 Live Location Detection
+# 🎯 Project Objective
 
-- Real-time user location
-- Location sharing
-- Refresh location support
+RoadSoS aims to:
 
-### 🗺 Interactive Maps
+- Reduce emergency response time
+- Improve accessibility to emergency services
+- Provide AI-assisted first-aid guidance
+- Enable voice-based emergency activation
+- Support emergency access in low-connectivity environments
+- Deliver location-based roadside assistance
+- Enhance road safety using modern web technologies and AI
 
-- Leaflet Integration
+---
+
+# ✨ Key Features
+
+## 📍 Live Location Detection
+
+- Real-time location tracking
+- Current latitude & longitude
+- Location refresh functionality
+- Permission handling
+- Last known location storage
+
+---
+
+## 🗺️ Nearby Emergency Services
+
+Find nearby:
+
+- 🏥 Hospitals
+- 🚑 Ambulance Services
+- 👮 Police Stations
+- 🔧 Vehicle Repair Centers
+- 🛞 Tyre / Puncture Shops
+- 🚗 Vehicle Showrooms
+
+Powered by:
+
 - OpenStreetMap
-- Service Markers
-- Directions Support
+- Overpass API
+- Leaflet Maps
 
-### 🤖 AI First Aid Assistant
+---
 
-Provides emergency guidance for:
+## 🤖 AI First Aid Assistant
+
+AI-powered emergency guidance system.
+
+Provides assistance for:
 
 - Bleeding
 - Burns
 - Fractures
 - Head Injuries
+- CPR Situations
 - Unconscious Victims
-- CPR Guidance
 
-### 🎙 Voice SOS Activation
+Features:
 
-Emergency activation using voice commands such as:
+- Gemini Integration
+- Emergency Recommendations
+- Safe Non-Diagnostic Responses
+- Fallback Guidance System
+
+---
+
+## 🎙️ Voice SOS Activation
+
+Hands-free emergency activation.
+
+Supported commands:
 
 - SOS
 - Help
@@ -82,48 +117,138 @@ Emergency activation using voice commands such as:
 - Ambulance
 - Police
 
-### 📴 Offline Emergency Mode
+Features:
 
-Works even with limited internet access.
+- Voice Recognition
+- Emergency Mode Activation
+- Quick Emergency Actions
+- Voice Feedback Indicators
+
+---
+
+## 📞 Emergency Contact Management
+
+Users can:
+
+- Add Emergency Contacts
+- Edit Contacts
+- Delete Contacts
+- Store Contacts Locally
+
+Stored Information:
+
+- Name
+- Relationship
+- Phone Number
+
+---
+
+## 🚨 Accident Severity Detection
+
+AI-assisted accident severity analysis.
+
+Input:
+
+- Accident Description
+- Symptom Selection
+- Future-Ready Image Upload
+
+Output:
+
+- 🟢 Low Risk
+- 🟡 Medium Risk
+- 🔴 High Risk
 
 Provides:
+
+- Risk Assessment
+- Emergency Recommendations
+- Suggested Actions
+- Safety Guidance
+
+---
+
+## 🚗 Crash Detection Simulation
+
+Future-ready crash detection architecture.
+
+Current MVP includes:
+
+- Crash Simulation Trigger
+- Emergency Mode Activation
+- Emergency Contact Access
+- Location Sharing
+- Emergency Recommendations
+
+Future Scope:
+
+- Accelerometer Analysis
+- GPS Anomaly Detection
+- Speed Drop Detection
+- Automatic Emergency Alerts
+
+---
+
+## 📴 Offline Emergency Mode
+
+RoadSoS continues providing critical assistance even without internet access.
+
+Offline Features:
 
 - Emergency Guide
 - Emergency Numbers
 - Last Known Location
-- Cached Nearby Services
-
-### 🌍 Global Emergency Numbers
-
-Supports country-specific emergency contacts.
-
-Examples:
-
-- India → 112
-- USA → 911
-- UK → 999
+- Cached Emergency Data
 
 ---
 
-## 🏗 System Architecture
+## 📚 Emergency Guide
 
-### Emergency Service Flow
+Offline-accessible emergency information:
+
+- Bleeding Control
+- Burn Treatment
+- Fracture Support
+- CPR Basics
+- Head Injury Care
+- Emergency Procedures
+
+---
+
+## 🎨 Premium User Experience
+
+Modern Emergency Command Center UI.
+
+Features:
+
+- Sidebar Navigation
+- Intro Animation
+- Glassmorphism Design
+- Bento Grid Layout
+- Global Background Effects
+- Mobile Responsive Design
+- Smooth Animations
+- Emergency-Focused UX
+
+---
+
+# 🏗️ System Architecture
+
+## Emergency Response Flow
 
 ```text
 User
  ↓
-RoadSoS Frontend
+RoadSoS Dashboard
  ↓
-Geolocation API
+Location Detection
  ↓
-Leaflet + OpenStreetMap
+Emergency Services Discovery
  ↓
-Overpass API
- ↓
-Nearby Emergency Services
+Emergency Assistance
 ```
 
-### AI Flow
+## AI Assistant Flow
 
 ```text
 User Query
@@ -135,10 +260,10 @@ Gemini API / Fallback Engine
 First Aid Guidance
 ```
 
-### Voice SOS Flow
+## Voice SOS Flow
 
 ```text
-User Voice
+Voice Command
  ↓
 Speech Recognition API
  ↓
@@ -147,7 +272,19 @@ Keyword Detection
 Emergency Mode Activation
 ```
 
-### Offline Flow
+## Crash Detection Flow
+
+```text
+Crash Detection Simulation
+ ↓
+Emergency Mode
+ ↓
+Location Sharing
+ ↓
+Emergency Actions
+```
+
+## Offline Flow
 
 ```text
 Service Worker
@@ -159,59 +296,66 @@ Offline Emergency Access
 
 ---
 
-## 🛠 Tech Stack
+# 🛠️ Technology Stack
 
-### Frontend
+## Frontend
 
 - React
 - Vite
 - Tailwind CSS
 - React Router DOM
 
-### Maps
+## Maps & Location
 
 - Leaflet
 - OpenStreetMap
 - Overpass API
+- Browser Geolocation API
 
-### AI
+## Artificial Intelligence
 
-- Gemini API
+- Google Gemini API
 - Rule-Based Emergency Fallback
 
-### Browser APIs
+## Browser APIs
 
-- Geolocation API
 - Web Speech API
-- Local Storage
+- Geolocation API
+- Local Storage API
 - Service Workers
 
-### Deployment
+## Deployment
 
 - Vercel
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```text
 RoadSoS
 │
 ├── public
+│   ├── manifest.json
+│   └── sw.js
 │
 ├── src
 │   ├── assets
+│   ├── api
 │   ├── components
-│   ├── pages
 │   ├── hooks
+│   ├── pages
 │   ├── services
 │   ├── data
 │   ├── utils
-│   ├── api
 │   ├── App.jsx
 │   └── main.jsx
 │
 ├── docs
+│   ├── HISTORY.md
+│   ├── PROJECT_OVERVIEW.md
+│   ├── SYSTEM_ARCHITECTURE.md
+│   └── ...
 │
 ├── .env.example
 ├── package.json
@@ -220,45 +364,45 @@ RoadSoS
 
 ---
 
-## 🚀 Installation
+# 🚀 Installation
 
-Clone the repository:
+Clone Repository
 
 ```bash
 git clone https://github.com/Vishwajeet805/RoadSoS.git
 ```
 
-Move into project directory:
+Navigate into project
 
 ```bash
 cd RoadSoS
 ```
 
-Install dependencies:
+Install dependencies
 
 ```bash
 npm install
 ```
 
-Create environment file:
+Create environment file
 
 ```bash
 cp .env.example .env
 ```
 
-Add your Gemini API key:
+Add Gemini API key
 
 ```env
-GEMINI_API_KEY=your_api_key_here
+VITE_GEMINI_API_KEY=your_api_key_here
 ```
 
-Run development server:
+Run locally
 
 ```bash
 npm run dev
 ```
 
-Build for production:
+Production build
 
 ```bash
 npm run build
@@ -266,106 +410,142 @@ npm run build
 
 ---
 
-## 🔐 Environment Variables
-
-Create:
+# 🔐 Environment Variables
 
 ```env
-GEMINI_API_KEY=
+VITE_GEMINI_API_KEY=
 ```
 
-**Important:** Never commit your actual API key to GitHub.
+Never commit actual API keys.
 
 ---
 
-## 📖 Use Case
+# 📱 Responsive Design
 
-### Scenario
+RoadSoS is optimized for:
 
-A rider meets with an accident on a highway.
+- Desktop
+- Laptop
+- Tablet
+- Mobile Devices
 
-Using RoadSoS:
-
-1. User opens RoadSoS.
-2. Location is detected automatically.
-3. Nearby hospitals, police stations, and ambulances are displayed.
-4. User activates SOS using voice command.
-5. AI Assistant provides first-aid guidance.
-6. Emergency contacts become available.
-7. Offline mode continues to provide critical information if internet fails.
+Tested for emergency accessibility and mobile-first usage.
 
 ---
 
-## 🎯 Innovation Highlights
+# 🎯 Innovation Highlights
 
 ### 🤖 AI First Aid Assistant
 
-Provides emergency guidance before professional help arrives.
+Provides immediate first-aid guidance before professional help arrives.
 
-### 🎙 Voice SOS
+### 🎙️ Voice SOS
 
-Hands-free emergency activation.
+Hands-free emergency activation during critical situations.
 
 ### 📴 Offline Emergency Mode
 
-Critical information remains accessible even without internet.
+Critical emergency information remains accessible even without internet.
+
+### 🚨 Accident Severity Detection
+
+Provides intelligent risk assessment and emergency recommendations.
+
+### 🚗 Crash Detection Simulation
+
+Demonstrates future-ready automatic accident detection architecture.
 
 ---
 
-## 📊 Future Scope
+# 📊 Future Scope
+
+Planned future enhancements:
 
 - Real-Time Ambulance Tracking
-- Multi-Language Support
-- WhatsApp Emergency Alerts
-- Accident Severity Detection
 - Hospital Bed Availability
+- Multi-Language Support
 - Government Service Integration
-- Mobile Application
-- Automatic Crash Detection
+- Mobile App Development
+- Automatic Sensor-Based Crash Detection
 - Emergency Contact Notifications
+- Smart Wearable Integration
+- AI Vision-Based Accident Analysis
 
 ---
 
-## 👥 Team
+# 🧪 Testing Status
 
-### Team Leader
+| Module | Status |
+|----------|---------|
+| Location Detection | ✅ PASS |
+| Nearby Services | ✅ PASS |
+| Maps Integration | ✅ PASS |
+| AI Assistant | ✅ PASS |
+| Voice SOS | ✅ PASS |
+| Emergency Contacts | ✅ PASS |
+| Severity Detection | ✅ PASS |
+| Crash Detection | ✅ PASS |
+| Offline Mode | ✅ PASS |
+| Responsive UI | ✅ PASS |
+
+---
+
+# 👨‍💻 Team
+
+## Team Leader
 
 **Vishwajeet Singh**
 
-### Team Members
+## Team Members
 
-**Shaurya Dubey**
+**Shaurya Jain**
 
 **Aditya Jain**
 
 ---
 
-## 🏆 Hackathon Alignment
+# 🏆 Hackathon Alignment
 
-RoadSoS directly addresses the Road Safety Hackathon requirements:
+RoadSoS directly addresses the National Road Safety Hackathon problem statement.
 
-- ✅ Hospitals
-- ✅ Ambulance Services
-- ✅ Police Stations
-- ✅ Vehicle Rescue Services
-- ✅ Towing Services
-- ✅ Puncture Shops
-- ✅ Vehicle Showrooms
-- ✅ Emergency Contacts
-- ✅ Offline Functionality
-- ✅ Innovation
-- ✅ Global Applicability
+✅ Nearby Hospitals
+
+✅ Nearby Ambulance Services
+
+✅ Nearby Police Stations
+
+✅ Vehicle Rescue Support
+
+✅ Emergency Contacts
+
+✅ Location-Based Emergency Access
+
+✅ AI Integration
+
+✅ Offline Support
+
+✅ Voice Assistance
+
+✅ Road Safety Innovation
 
 ---
 
-## 📄 License
+# 📄 License
 
 This project was developed for educational, research, and hackathon purposes.
 
 ---
 
-## ❤️ Mission
+# ❤️ Mission
 
-**"Every Second Matters During an Emergency."**
+### "Every Second Matters During an Emergency"
 
-RoadSoS aims to reduce emergency response time and make road accident assistance faster, smarter, and more accessible for everyone.
+RoadSoS aims to make emergency assistance faster, smarter, more accessible, and more reliable through the power of AI, geolocation, and modern web technologies.
+
+---
+
+<div align="center">
+
+Made with ❤️ for the National Road Safety Hackathon 2026
+
+</div>
