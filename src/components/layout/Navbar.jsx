@@ -7,6 +7,8 @@ const navLinks = [
   { to: "/dashboard", label: "SOS Dashboard" },
   { to: "/nearby", label: "Nearby Services" },
   { to: "/assistant", label: "AI Assistant" },
+  { to: "/accident-severity", label: "Severity Check" },
+  { to: "/contacts", label: "Contacts" },
   { to: "/guide", label: "Emergency Guide" },
   { to: "/about", label: "About" },
 ];

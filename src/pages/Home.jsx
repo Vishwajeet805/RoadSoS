@@ -38,12 +38,7 @@ const stats = [
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-dark">
-      {/* Animated background blobs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-float"></div>
-        <div className="absolute bottom-40 right-20 w-80 h-80 bg-emergency/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }}></div>
-      </div>
+    <div className="min-h-screen">
 
       <div className="relative z-10">
         {/* Hero Section */}

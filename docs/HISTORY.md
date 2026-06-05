@@ -406,3 +406,191 @@
 - Offline map caching (currently uses online tile server)
 - Background sync for logging (when connectivity restored)
 - Emergency Guide (Phase 8)
+
+
+---
+
+## Phase F — Accident Severity Detection
+**Date:** 2026-06-04
+
+**Goal:**
+Create an accident severity analysis module that helps users or bystanders estimate the seriousness of an accident based on description and selected symptoms.
+
+**Completed:**
+- Rule-based severity scoring engine (`severityService.js`)
+- Static rules/data layer (`severityRules.js`) with high / medium / low risk keyword tables
+- Critical keyword override (unconscious, not breathing, heavy bleeding, head injury → always High Risk)
+- Scoring thresholds: 0–2 = Low Risk, 3–6 = Medium Risk, 7+ = High Risk
+- Selectable symptom chips grouped by risk tier (high / medium / low) in UI
+- Free-text accident description textarea with 1000-char limit
+- Future-ready image upload placeholder with drag-and-drop, preview, and clear (no real AI analysis)
+- `SeverityResultCard` with risk-level badge, score, detected factors, recommendations list, emergency action buttons
+- `SeverityAnalyzer` form that orchestrates all inputs, validates, calls service, renders result
+- `AccidentSeverity` page with header, risk legend, safety disclaimer, info strip, analyzer
+- `ImageUploadPlaceholder` collapsible section marked Future Ready
+- Emergency action buttons inside result card navigate to SOS Dashboard, Nearby Services, AI Assistant, Emergency Guide
+- Prominent safety disclaimer on page and inside result card
+- Route `/accident-severity` added to router
+- "Severity Check" navigation link added to Navbar
+- "Check Accident Severity" quick-action button added to Dashboard emergency support section
+
+**Files Created:**
+- `src/data/severityRules.js`
+- `src/services/severityService.js`
+- `src/components/ImageUploadPlaceholder.jsx`
+- `src/components/SeverityResultCard.jsx`
+- `src/components/SeverityAnalyzer.jsx`
+- `src/pages/AccidentSeverity.jsx`
+
+**Files Modified:**
+- `src/main.jsx` — added AccidentSeverity import + `/accident-severity` route
+- `src/components/layout/Navbar.jsx` — added "Severity Check" nav link
+- `src/pages/Dashboard.jsx` — added "Check Accident Severity" and "Emergency Guide" quick actions
+- `docs/HISTORY.md` (this file)
+- `docs/PROJECT_STATE.MD`
+- `docs/TASKS.MD`
+
+**Important Decisions:**
+- Rule-based scoring chosen over AI for reliability, offline support, and zero API cost
+- Critical override ensures `unconscious` / `not breathing` / `heavy bleeding` / `head injury` always yield High Risk
+- Image upload UI added as placeholder only; clearly marked Future Ready with no fake AI analysis
+- Module is fully independent — zero changes to overpassService, geminiService, useVoiceSOS, useGeolocation
+- Safety disclaimer appears in three places: page header, info strip, inside result card
+- All emergency action buttons inside result card navigate to existing RoadSoS pages (no duplication)
+
+**Safety Approach:**
+- No medical diagnosis claims anywhere in code or UI
+- Disclaimer shown before and after analysis
+- High Risk result always prompts immediate emergency services call
+- Critical override bypasses score to ensure worst-case is always escalated
+- Image analysis clearly labelled as not implemented
+
+**Pending / Future Work:**
+- Vision model integration for image-based severity detection
+- AI-powered description analysis (replace/augment rule-based scoring)
+- Multilingual keyword detection
+- Injury location body-map selector
+- Share severity report via WhatsApp/SMS emergency alert
+
+
+---
+
+## Phase G — Automatic Crash Detection Simulation
+**Date:** 2026-06-04
+
+**Goal:**
+Create a future-ready crash detection module that simulates automatic accident detection and triggers emergency mode.
+
+**Completed:**
+- `crashDetectionService.js` with active `simulateCrashDetection()` and `generateCrashAlertMessage()`
+- Future-ready stub functions: `analyzeAccelerometerData()`, `detectGPSAnomaly()`, `calculateSpeedDrop()`, `requestMotionPermission()` — all safe, non-breaking, return descriptive placeholders
+- `CrashDetectionSimulator` component with full 3-state machine: idle → detecting (3s countdown) → crash-detected
+- Animated countdown ring on detecting state
+- Red-glow crash alert panel with timestamp
+- Location capture — uses live location if available, fallback message if not
+- Google Maps link generated from coordinates
+- Alert message preview (collapsible)
+- WhatsApp share URL (`wa.me/?text=`)
+- SMS share URL (`sms:?body=`)
+- Call 112 direct link
+- Nearby Services and AI First Aid navigation buttons
+- Reset simulation button at all stages
+- Future Sensor Architecture collapsible info panel (5 items: Accelerometer, Speed Drop, GPS Anomaly, DeviceMotion API, Auto Notification)
+- Simulation disclaimer always visible
+- Dashboard `handleCrashDetected` callback — reuses existing `handleEmergencyActivated()` + `setSosActive()` flow
+- Dashboard emergency banner now shows "Crash Detection Simulation" as trigger type
+- `CrashDetectionSimulator` inserted in Dashboard after VoiceSOS section
+- `npm run build` passes — 0 errors
+
+**Files Created:**
+- `src/services/crashDetectionService.js`
+- `src/components/CrashDetectionSimulator.jsx`
+
+**Files Modified:**
+- `src/pages/Dashboard.jsx` — added import, `handleCrashDetected` handler, CrashDetectionSimulator section
+- `docs/HISTORY.md` (this file)
+- `docs/PROJECT_STATE.MD`
+- `docs/TASKS.MD`
+
+**Important Decisions:**
+- Simulation label ("SIM" badge, "Simulation Mode" subtitle) is permanently visible — never misrepresents as real detection
+- State machine kept inside component; Dashboard only receives a callback, preventing duplication of emergency logic
+- `generateCrashAlertMessage` lives in the service (not component) so future AI or real-sensor code can reuse it
+- DeviceMotion API intentionally not wired in MVP — browser compatibility and permission complexity out of scope
+- Future stub functions use `void param` to suppress linting warnings without breaking tree-shaking
+- WhatsApp and SMS links built from the same message string, keeping them consistent
+
+**Simulation Limitations:**
+- No real accelerometer data used
+- No real GPS anomaly detection
+- Crash event is 100% user-triggered (button click)
+- Countdown is aesthetic — no sensor polling behind it
+
+**Future Real-Sensor Architecture:**
+- Replace `simulateCrashDetection()` with sensor pipeline output from `analyzeAccelerometerData()` + `detectGPSAnomaly()`
+- Wire `requestMotionPermission()` on app start for iOS 13+ devices
+- Add background service worker or PWA background sync for automatic notification
+- Connect `calculateSpeedDrop()` to GPS speed stream
+
+**Pending / Future Work:**
+- Real DeviceMotion/DeviceOrientation API integration
+- Background crash monitoring (service worker)
+- Automatic SMS/WhatsApp without user tap
+- Multilingual emergency messages
+- Crash history log
+
+---
+
+## Phase A — Emergency Contact Notifications
+**Date:** 2026-06-05
+
+**Goal:**
+Allow users to save trusted contacts and notify them instantly during SOS activation via WhatsApp, SMS, and direct call — with live location auto-attached.
+
+**Completed:**
+- `emergencyContactService.js` — Full CRUD (add, update, delete, validate) with localStorage persistence
+- `emergencyMessageService.js` — Message generation, WhatsApp (wa.me) links, SMS (sms:) deep links, Google Maps URL
+- `useEmergencyContacts.js` — React hook state layer over the service
+- `EmergencyContactCard.jsx` — Individual card with name, relationship badge, phone; Call + WhatsApp action buttons; Edit + Delete hover controls
+- `AddContactModal.jsx` — Dual-mode (add / edit) modal with name, relationship select, phone validation; inline error feedback
+- `EmergencySharePanel.jsx` — Shown inside Dashboard SOS section; lists all contacts with one-tap Call / WhatsApp / SMS; auto-generated message preview with copy button; Google Maps link
+- `EmergencyContacts.jsx` — Dedicated management page at `/contacts`; stats row; how-it-works banner; add/edit/delete flow; empty state
+- Route `/contacts` added to React Router
+- "Contacts" nav link added to Navbar
+- `EmergencySharePanel` inserted into Dashboard `sosActive` block — zero disruption to existing SOS flow
+
+**Files Created:**
+- `src/services/emergencyContactService.js`
+- `src/services/emergencyMessageService.js`
+- `src/hooks/useEmergencyContacts.js`
+- `src/components/EmergencyContactCard.jsx`
+- `src/components/AddContactModal.jsx`
+- `src/components/EmergencySharePanel.jsx`
+- `src/pages/EmergencyContacts.jsx`
+
+**Files Modified:**
+- `src/main.jsx` — `/contacts` route + import
+- `src/components/layout/Navbar.jsx` — "Contacts" nav link
+- `src/pages/Dashboard.jsx` — `EmergencySharePanel` inside `sosActive` block
+
+**Important Decisions:**
+- No global state / context — `useEmergencyContacts` hook used directly in each consumer
+- Storage key: `roadsos_personal_contacts` (via existing `storage` util with `roadsos_` prefix)
+- WhatsApp link uses `wa.me/{phone}?text=...` format — works mobile and desktop
+- SMS link uses `sms:{phone}?body=...` — iOS and Android compatible
+- Duplicate phone detection prevents redundant contacts
+- All message generation is pure JS — works fully offline
+- EmergencySharePanel reads contacts fresh on each SOS activation via hook's `useEffect`
+- Dashboard changes are purely additive — existing Voice SOS, Crash Detection, and SOS button flows are untouched
+
+**Offline Behaviour:**
+- Contacts: stored in localStorage, available with no internet
+- Message generation: pure JS, zero network calls
+- WhatsApp/SMS links: open device app, work offline
+- Location: falls back to `storage.get("lastLocation")` via existing `useGeolocation` hook
+
+**Pending / Future Work:**
+- Broadcast WhatsApp to all contacts in one tap (WhatsApp does not support multi-recipient deep links natively; workaround: loop and open each)
+- Web Share API integration for native share sheet
+- Notification badge on Contacts nav link showing contact count
+- Export/import contacts (JSON backup)

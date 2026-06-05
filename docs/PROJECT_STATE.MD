@@ -60,3 +60,85 @@ RoadSoS MVP Features:
 - Testing & Bug Fixes
 - Performance Optimization
 - Deployment & Launch
+
+---
+
+## Phase F — Current State (2026-06-04)
+
+**Module:** Accident Severity Detection
+**Status:** ✅ Complete
+
+**Route:** `/accident-severity`
+**Nav Label:** Severity Check
+
+**Active Features:**
+- Rule-based scoring with high / medium / low keyword tiers
+- Critical keyword override (forces High Risk)
+- Symptom chip selector (16 chips across 3 risk tiers)
+- Free-text description input (max 1000 chars)
+- Future-ready image upload placeholder
+- SeverityResultCard: risk badge, score, factors, recommendations, action buttons
+- Emergency action buttons link to SOS Dashboard, Nearby Services, AI Assistant, Emergency Guide
+- Safety disclaimer — visible on page load and inside result
+
+**Not Yet Active:**
+- Vision-model image analysis (placeholder only)
+- AI-powered text analysis (rule-based only)
+
+**Build:** `npm run build` passes with 0 errors.
+
+---
+
+## Phase G — Current State (2026-06-04)
+
+**Module:** Automatic Crash Detection Simulation
+**Status:** ✅ Complete
+
+**Placement:** Dashboard page — after Voice SOS section
+
+**Active Features:**
+- Simulation trigger button with 3s animated countdown
+- State machine: idle → detecting → crash-detected
+- Crash alert panel with red glow, timestamp, location
+- Google Maps link from live/cached coordinates
+- WhatsApp + SMS share URLs with pre-filled emergency message
+- Call 112 direct link
+- Nearby Services + AI First Aid navigation buttons
+- Reset at any stage
+- Future architecture collapsible info panel
+- Simulation disclaimer always shown
+
+**Not Active (Future):**
+- Real accelerometer-based crash detection
+- GPS anomaly detection
+- Automatic background notification
+- DeviceMotion API integration
+
+**Build:** `npm run build` passes with 0 errors.
+
+---
+
+## Phase A — Current State (2026-06-05)
+
+**Module:** Emergency Contact Notifications
+**Status:** ✅ Complete
+
+**Route:** `/contacts`
+**Nav Label:** Contacts
+
+**Active Features:**
+- Personal contact CRUD (add, edit, delete) with localStorage
+- Phone number validation + duplicate prevention
+- Relationship categories: Father, Mother, Spouse, Sibling, Friend, Guardian, Colleague, Other
+- One-tap Call, WhatsApp, SMS per contact during SOS
+- Auto-generated emergency message with live GPS location (Google Maps link)
+- Copy-to-clipboard for emergency message
+- EmergencySharePanel auto-appears when SOS is activated (button, voice, or crash detection)
+- Full offline support (contacts + message generation + deep links work without internet)
+
+**SOS Integration:**
+- EmergencySharePanel rendered inside Dashboard `sosActive` block
+- Triggered by: manual SOS button, Voice SOS, Crash Detection Simulator
+- Voice SOS and Crash Detection flows NOT modified
+
+**Build:** `npm run build` passes with 0 errors.

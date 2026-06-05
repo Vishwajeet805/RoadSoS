@@ -54,3 +54,74 @@
 - [ ] Software packages list
 - [ ] Assumptions list
 - [ ] Deployment to Vercel
+
+---
+
+## Phase F Tasks — Accident Severity Detection
+
+### ✅ Completed
+
+- [x] Create `src/data/severityRules.js` — keyword tables, thresholds, symptom options, action maps
+- [x] Create `src/services/severityService.js` — `analyzeSeverity()` and `validateInput()`
+- [x] Create `src/components/ImageUploadPlaceholder.jsx` — drag-drop, preview, future-ready note
+- [x] Create `src/components/SeverityResultCard.jsx` — risk card with badge, score, factors, buttons
+- [x] Create `src/components/SeverityAnalyzer.jsx` — full input form + orchestrator
+- [x] Create `src/pages/AccidentSeverity.jsx` — page wrapper with header, legend, disclaimer
+- [x] Add `/accident-severity` route to `src/main.jsx`
+- [x] Add "Severity Check" nav link to `src/components/layout/Navbar.jsx`
+- [x] Add "Check Accident Severity" quick action to `src/pages/Dashboard.jsx`
+- [x] Verify `npm run build` passes — ✅
+
+### 🔜 Future / Pending
+
+- [ ] Vision model integration for image-based severity (image upload UI is ready)
+- [ ] Replace / augment rule-based scoring with AI text analysis
+- [ ] Multilingual keyword detection (Hindi, Marathi, Tamil, etc.)
+- [ ] Body-map injury location selector
+- [ ] Share severity report via WhatsApp/SMS emergency alert
+- [ ] Animation on risk-level change when re-analysing
+
+---
+
+## Phase G Tasks — Automatic Crash Detection Simulation
+
+### ✅ Completed
+- [x] Create `src/services/crashDetectionService.js` — simulation + future stubs
+- [x] Create `src/components/CrashDetectionSimulator.jsx` — full state machine component
+- [x] Dashboard: add `handleCrashDetected` callback handler
+- [x] Dashboard: insert `<CrashDetectionSimulator>` after VoiceSOS section
+- [x] WhatsApp + SMS share links with pre-filled crash alert message
+- [x] Future architecture collapsible section
+- [x] Simulation disclaimer
+- [x] Verify `npm run build` passes — ✅
+
+### 🔜 Future / Pending
+- [ ] Real DeviceMotion/DeviceOrientation API crash detection
+- [ ] GPS speed-drop anomaly detection
+- [ ] Background monitoring via Service Worker
+- [ ] Automatic emergency notification (no tap required)
+- [ ] Crash history log in localStorage
+- [ ] Multilingual emergency messages
+
+---
+
+## Phase A Tasks — Emergency Contact Notifications
+
+### ✅ Completed
+- [x] Create `src/services/emergencyContactService.js` — CRUD + validation + localStorage
+- [x] Create `src/services/emergencyMessageService.js` — message generation, WhatsApp/SMS links, Maps URL
+- [x] Create `src/hooks/useEmergencyContacts.js` — React state layer
+- [x] Create `src/components/EmergencyContactCard.jsx` — contact card with actions
+- [x] Create `src/components/AddContactModal.jsx` — add/edit modal with validation
+- [x] Create `src/components/EmergencySharePanel.jsx` — SOS notification panel
+- [x] Create `src/pages/EmergencyContacts.jsx` — full contacts management page
+- [x] Add `/contacts` route to `src/main.jsx`
+- [x] Add "Contacts" nav link to `src/components/layout/Navbar.jsx`
+- [x] Add `EmergencySharePanel` to `src/pages/Dashboard.jsx` inside `sosActive` block
+- [x] Update `docs/HISTORY.md`, `docs/PROJECT_STATE.MD`, `docs/TASKS.MD`
+
+### 🔜 Future / Pending
+- [ ] Web Share API for native share sheet (mobile)
+- [ ] Contact count badge on Navbar
+- [ ] JSON export/import for contact backup
+- [ ] Multi-recipient broadcast shortcut

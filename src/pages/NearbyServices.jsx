@@ -154,7 +154,7 @@ export default function NearbyServices() {
 
   if (!userLocation) {
     return (
-      <div className="min-h-screen bg-gradient-dark flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <p className="text-white/40 font-semibold">Detecting location...</p>
         </div>
@@ -163,8 +163,8 @@ export default function NearbyServices() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-dark">
-      <div className="max-w-6xl mx-auto px-4 py-12">
+    <div className="min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
         {/* Offline Notification */}
         {showNotification && (
           <div className={`mb-6 p-4 rounded-xl border-l-4 flex items-center gap-3 animate-fade-in glass-md ${
